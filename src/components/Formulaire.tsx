@@ -1,95 +1,103 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import {Button,Form} from 'react-bootstrap';
 
+export default function Formulaire({handleCloseModal}:any) {
 
-export default function Formulaire() {
+    const cities = ["New York", "San Francisco", "Seattle", "Chicago", "Boston", "Portland"];
 
-    const [nom, setNom] = useState("John");
-    const [prenom, setPrenom] = useState("Doe");
-    const [email, setEmail] = useState("");
-    const [birthday, setBirthday] = useState("");
-    const [nb, setNb] = useState("");
-
+    const [nom, setNom] = useState<string>("");
+    const [prenom, setPrenom] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [dateNaissance, setDateNaissance] = useState<string>("");
+    const [number, setNumber] = useState<number>(0);
+    const [ville, setVille] = useState<string>("");
+    const [acceptConditions, setAcceptConditions] = useState<boolean>(true);
+    const [beNotified, setBeNotified] = useState<boolean>(false);
     const [show, setShow] = useState(false);
-    const handleShow = () =>  setShow(true);
-    const handleClose = () => setShow(false);
 
-    const [validated, setValidated] = useState(false);
+    const [validated, setValidated] = useState<boolean>(false);
 
-    const checkEmail = (event:any) => {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        event.preventDefault();
-        event.stopPropagation();
-       // setValidated(false)
-        return false;
-        alert("Veuillez entrer un email valide");
-      }else{
-       // setValidated(true);
-          return true;
-      }
+    /**
+     * Sets the data entered by the user in the form to their respective state variables.
+     *   @returns {void}
+     */
+    const getData = ():void => {
+
+      setPrenom(prenom);
+      setNom(nom);
+      setEmail(email);
+      setDateNaissance(dateNaissance);
+      setNumber(Number);
+      setVille(ville);
+      setAcceptConditions(acceptConditions);
+      setBeNotified(beNotified);
+      
     }
-   
-    const handleSubmit = (event:any) => {
-      const form = event.currentTarget;
 
-      if (form.checkValidity() === false) {
+    /**
+     * Handles the submission of a form event and performs form validation.
+     * @param {Event} event - The event object representing the form submission.
+     * @returns {void}
+     */
+    const handleSubmit = (event:any):void => {
+      const form = event.currentTarget;
+      let isValid = form.checkValidity()
+      
+      if (isValid === false ) {
         event.preventDefault();
         event.stopPropagation();
+        
       }
-
-      
       setValidated(true);
-      checkEmail(event)
-      
-  
-    };
+      isValid && setShow(true);
+      getData();
 
-
-  
+    }
 
   return (
     <>
      
          {!show && 
-           <Form noValidate validated={validated} onSubmit={handleSubmit}>
+           <Form noValidate validated={validated} onSubmit={handleSubmit} >
            <Form.Group className="mb-2" controlId="validationCustom01">
              <Form.Label>Prénom</Form.Label>
              <Form.Control
                type="text"
                required
-               minLength={3}
                placeholder="John"
                autoFocus
+               pattern="^[a-zA-Z]{3,}$"
                onChange={(e) => setPrenom(e.target.value)} 
                value={prenom}
              />
-            <Form.Control.Feedback type="invalid"> Le prénom doit contenir au moins 3 caractères</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid"> Le prénom doit contenir au moins 3 caractères et pas de chiffres</Form.Control.Feedback>
            </Form.Group>
 
-           <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+           <Form.Group className="mb-2" controlId="validationCustom02">
              <Form.Label>Nom</Form.Label>
              <Form.Control
                type="text"
                placeholder="Doe"
                required
-               minLength={3}
+               pattern="^[a-zA-Z]{3,}$"
                onChange={(e) => setNom(e.target.value)} 
                value={nom}
-              
+            
              />
-            <Form.Control.Feedback type="invalid"> Le nom doit contenir au moins 3 caractères</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid"> Le nom doit contenir au moins 3 caractères et pas de chiffres</Form.Control.Feedback>
+            
            </Form.Group>
 
-           <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+           <Form.Group className="mb-2" controlId="validationCustom03">
              <Form.Label>Email address</Form.Label>
              <Form.Control
                type="email"
                required
+               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                placeholder="johndoe@example.com"
                onChange={(e) => setEmail(e.target.value)} 
                value={email}
+               
              />
             <Form.Control.Feedback type="invalid"> Email incorrect</Form.Control.Feedback>
            </Form.Group>
@@ -99,10 +107,13 @@ export default function Formulaire() {
              <Form.Control
                type="date"
                required
-               onChange={(e) => setBirthday(e.target.value)} 
-               value={birthday}
+               max="2011-03-31"
+               onChange={(e) => setDateNaissance(e.target.value)} 
+               value={dateNaissance}
              />
-              <Form.Control.Feedback type="invalid"> Date de naissance non valide</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid"> Date de naissance non valide
+              Les compétitions de jeux vidéo offrant des récompenses monétaires sont interdites aux mineurs de moins de 12 ans.
+              </Form.Control.Feedback>
            </Form.Group>
 
            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
@@ -111,62 +122,31 @@ export default function Formulaire() {
                type="number"
                 required
                 min={0}
-                onChange={(e) => setNb(e.target.value)} 
-               value={nb}
-              
+                pattern="^[0-9]+([.][0-9]+)?$"
+                onChange={(e) => setNumber(parseInt(e.target.value))} 
+                value={number} 
              />
             <Form.Control.Feedback type="invalid"> Nombre de participation non valide</Form.Control.Feedback>
            </Form.Group>
 
            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
-             <Form.Label>A quel tournoi souhaitez-vous participé cette année participé ?</Form.Label>
-             
-             {[ 'radio'].map((type) => (
-             <div key={`inline-${type}`} className="mb-2">
-               <Form.Check
-                 inline
-                 label="New York"
-                 name="group1"
-                 type={type}
-                 id={`inline-${type}-1`}
-               />
-               <Form.Check
-                 inline
-                 label="San Fransisco"
-                 name="group1"
-                 type={type}
-                 id={`inline-${type}-2`}
-               />
-               <Form.Check
-                 inline
-                 label="Seattle"
-                 type={type}
-                 id={`inline-${type}-3`}
-               />
-                <Form.Check
-                 inline
-                 label="Chicago"
-                 name="group1"
-                 type={type}
-                 id={`inline-${type}-1`}
-               />
-                <Form.Check
-                 inline
-                 label="Boston"
-                 name="group1"
-                 type={type}
-                 id={`inline-${type}-1`}
-               />
-                <Form.Check
-                 inline
-                 label="Portland"
-                 name="group1"
-                 type={type}
-                 id={`inline-${type}-1`}
-               />
-             </div>
-     ))}
-           </Form.Group>
+           <Form.Label>A quel tournoi souhaitez-vous participer cette année ?</Form.Label>
+
+            {cities.map((city, index) => (
+              <Form.Check
+                key={index}
+                inline
+                required
+                label={city}
+                name="group1"
+                type="radio"
+                id={`inline-radio-${index}`}
+                onChange={(e) => setVille(city)} 
+                value={ville} 
+              />
+            ))}
+          </Form.Group>
+
 
            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
              <Form.Check 
@@ -174,14 +154,21 @@ export default function Formulaire() {
                 aria-label="option 1" 
                 required
                 label="J'ai lu et acceptés les conditions d'utilisations" 
+                onChange={(e) => setAcceptConditions(e.target.checked)} 
+                checked={acceptConditions} 
                  />
              <Form.Control.Feedback type="invalid"> Les conditions d'utilisations doivent être accéptées</Form.Control.Feedback>
            </Form.Group>
 
            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
              <Form.Label></Form.Label>
-             <Form.Check   aria-label="option 1" label="Je souhaite être prevenue des prochains evèvements" />
-             <Form.Control.Feedback type="invalid"> Nombre non valide</Form.Control.Feedback>
+             <Form.Check 
+                aria-label="option 1" 
+                label="Je souhaite être prevenue des prochains evèvements" 
+                onChange={(e) => setBeNotified(e.target.checked)} 
+                checked={beNotified} 
+              />
+             
            </Form.Group><br/>
 
            <div className="d-flex justify-content-center">           
@@ -193,7 +180,27 @@ export default function Formulaire() {
          }
 
          {
-            show && <div><p className='fs-3 text-center'>Merci pour votre inscirption</p></div>
+            show && <section className="fs-5 ">
+                <div>
+                    <p>Nom : {nom}  </p>
+                    <p>Prenoms : {prenom}</p>
+                    <p>Adresse mail : {email}</p>
+                    <p>Date de naissance : {dateNaissance}</p>
+                    <p>Nombre de Participation : {number}</p>
+                    <p>Ville : {ville}</p>
+                    <p>Conditions d'utilisation : Accepté</p>
+                    <p className='fs-6 '>Je souhaite être prevenue des prochains evèvements : {beNotified ? 'Accepté' : 'Refusé'} </p>
+                  
+                    <p className="fs-3 fw-bold text-center text-secondary">Merci pour votre inscirption</p>                
+                </div>
+
+                <div className="d-grid gap-2">
+                  <Button variant="danger" size="lg" onClick={handleCloseModal}>
+                    Fermer
+                  </Button>
+        
+                </div>
+            </section>
          }
       
     </>
