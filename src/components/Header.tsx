@@ -12,7 +12,6 @@ function Header() {
             <Nav.Link href="#" className='text-dark fs-5'>A Propos</Nav.Link>
             <Nav.Link href="#" className='text-dark fs-5'>Contact</Nav.Link>
             <Nav.Link href="#" className='text-dark fs-5'>Evènements passées</Nav.Link>
-
           </Nav>
         </Navbar.Collapse>
       </Container>

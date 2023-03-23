@@ -3,7 +3,7 @@ import Formulaire from './Formulaire';
 
 function ModalForm({ showModal , handleCloseModal }:any) {
   return (
-    <div>
+
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title className="text-danger fw-bold">Inscription</Modal.Title>
@@ -12,7 +12,7 @@ function ModalForm({ showModal , handleCloseModal }:any) {
           <Formulaire handleCloseModal = {handleCloseModal}/>
         </Modal.Body>
       </Modal>
-    </div>
+    
   );
 }
 

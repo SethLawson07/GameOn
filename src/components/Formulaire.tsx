@@ -9,7 +9,7 @@ export default function Formulaire({handleCloseModal}:any) {
     const [prenom, setPrenom] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [dateNaissance, setDateNaissance] = useState<string>("");
-    const [number, setNumber] = useState<number>(0);
+    const [number, setNumber] = useState<number>();
     const [ville, setVille] = useState<string>("");
     const [acceptConditions, setAcceptConditions] = useState<boolean>(true);
     const [beNotified, setBeNotified] = useState<boolean>(false);
@@ -21,13 +21,13 @@ export default function Formulaire({handleCloseModal}:any) {
      * Sets the data entered by the user in the form to their respective state variables.
      *   @returns {void}
      */
-    const getData = ():void => {
+    const setData = ():void => {
 
       setPrenom(prenom);
       setNom(nom);
       setEmail(email);
       setDateNaissance(dateNaissance);
-      setNumber(Number);
+      setNumber(number);
       setVille(ville);
       setAcceptConditions(acceptConditions);
       setBeNotified(beNotified);
@@ -39,20 +39,21 @@ export default function Formulaire({handleCloseModal}:any) {
      * @param {Event} event - The event object representing the form submission.
      * @returns {void}
      */
-    const handleSubmit = (event:any):void => {
-      const form = event.currentTarget;
-      let isValid = form.checkValidity()
-      
-      if (isValid === false ) {
+     const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         event.stopPropagation();
-        
-      }
-      setValidated(true);
-      isValid && setShow(true);
-      getData();
-
-    }
+      
+        const form = event.currentTarget;
+        const isValid = form.checkValidity();
+      
+        setValidated(true);
+      
+        if (isValid) {
+          setShow(true);
+          setData();
+        }
+    };
+    
 
   return (
     <>
@@ -111,7 +112,7 @@ export default function Formulaire({handleCloseModal}:any) {
                onChange={(e) => setDateNaissance(e.target.value)} 
                value={dateNaissance}
              />
-              <Form.Control.Feedback type="invalid"> Date de naissance non valide
+              <Form.Control.Feedback type="invalid"> Date de naissance non valide,
               Les compétitions de jeux vidéo offrant des récompenses monétaires sont interdites aux mineurs de moins de 12 ans.
               </Form.Control.Feedback>
            </Form.Group>
