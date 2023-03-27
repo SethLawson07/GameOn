@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Button,Form} from 'react-bootstrap';
+import {Button,Form,Container,Row,Col} from 'react-bootstrap';
 
 export default function Formulaire({handleCloseModal}:any) {
 
@@ -117,7 +117,7 @@ export default function Formulaire({handleCloseModal}:any) {
               </Form.Control.Feedback>
            </Form.Group>
 
-           <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+           <Form.Group className="mb-2 " controlId="exampleForm.ControlInput1">
              <Form.Label>A combien de tournoi Gameon avez vous participé ?</Form.Label>
              <Form.Control
                type="number"
@@ -161,7 +161,7 @@ export default function Formulaire({handleCloseModal}:any) {
              <Form.Control.Feedback type="invalid"> Les conditions d'utilisations doivent être accéptées</Form.Control.Feedback>
            </Form.Group>
 
-           <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+           <Form.Group className="mb-2 " controlId="exampleForm.ControlInput1">
              <Form.Label></Form.Label>
              <Form.Check 
                 aria-label="option 1" 
@@ -170,38 +170,46 @@ export default function Formulaire({handleCloseModal}:any) {
                 checked={beNotified} 
               />
              
-           </Form.Group><br/>
-
-           <div className="d-flex justify-content-center">           
-             <Button type="submit" variant="danger" className="fs-5" >
+           </Form.Group>
+          
+           <Row className="justify-content-center">
+            <Col xs={12} md={6}>
+              <Button type="submit" variant="danger" className="fs-5 my-3 w-100">
                 C'est parti
               </Button>
-           </div>
+            </Col>
+          </Row>
          </Form>
          }
 
          {
-            show && <section className="fs-5 ">
-                <div>
-                    <p>Nom : {nom}  </p>
-                    <p>Prenoms : {prenom}</p>
-                    <p>Adresse mail : {email}</p>
-                    <p>Date de naissance : {dateNaissance}</p>
-                    <p>Nombre de Participation : {number}</p>
-                    <p>Ville : {ville}</p>
-                    <p>Conditions d'utilisation : Accepté</p>
-                    <p className='fs-6 '>Je souhaite être prevenue des prochains evèvements : {beNotified ? 'Accepté' : 'Refusé'} </p>
-                  
-                    <p className="fs-3 fw-bold text-center text-secondary">Merci pour votre inscirption</p>                
-                </div>
-
+            show && <Container className="fs-5 ">
+            <Row>
+              <Col>
+                <p>Nom : {nom}</p>
+                <p>Prénoms : {prenom}</p>
+                <p>Adresse mail : {email}</p>
+                <p>Date de naissance : {dateNaissance}</p>
+                <p>Nombre de participation : {number}</p>
+                <p>Ville : {ville}</p>
+                <p>Conditions d'utilisation : Accepté</p>
+                <p className="fs-6">
+                  Je souhaite être prévenu des prochains événements :{" "}
+                  {beNotified ? "Accepté" : "Refusé"}
+                </p>
+                <p className="fs-3 fw-bold text-secondary text-center">Merci pour votre inscription</p>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
                 <div className="d-grid gap-2">
                   <Button variant="danger" size="lg" onClick={handleCloseModal}>
                     Fermer
                   </Button>
-        
                 </div>
-            </section>
+              </Col>
+            </Row>
+          </Container>
          }
       
     </>

@@ -2,7 +2,7 @@ import {Container,Nav,Navbar,Button} from 'react-bootstrap';
 
 function Header() {
   return (
-    <Navbar bg="link" expand="lg">
+    <Navbar bg="link" expand="lg" className="my-2">
       <Container>
         <Navbar.Brand href="#home" className='text-danger fs-1 fw-bold'>GameOn</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
